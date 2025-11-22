@@ -3,7 +3,8 @@ Make a screenshot of a table, and get detected table right to your org notes.
 
 Works not perfect, but at least you get a structure to start
 
-[Demo](assets/demo.mp4)
+![](https://github.com/artzhk/img2orgtable-emacs/blob/master/assets/demo.mp4)
+
 
 ## Installation
 *Prerequisites*:  
