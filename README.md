@@ -3,8 +3,7 @@
 Make a screenshot of a table, and get detected table right to your org notes.  
 Works not perfect, but at least you get a structure to start.
 
-![](./assets/demo.mp4)
-
+https://github.com/user-attachments/assets/623faa67-8ed1-40f5-b415-11f2cff96556
 
 ## Table of Contents
 
