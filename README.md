@@ -21,7 +21,7 @@ https://github.com/user-attachments/assets/623faa67-8ed1-40f5-b415-11f2cff96556
 
 _Prerequisites_:
 
-- Python 3.7+
+- Python 3.13 - img2table needs Python >= 3.9, <3.14
 - Tesseract OCR – [Installation Guide](https://tesseract-ocr.github.io/tessdoc/Installation.html)
 
 _Installation steps_:
