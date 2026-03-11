@@ -1,6 +1,7 @@
 import pandas as pd
 from img2table.ocr import TesseractOCR
 from img2table.document import Image as Img
+import shutil
 import sys
 
 def to_org(df: pd.DataFrame) -> str:
@@ -26,16 +27,25 @@ class Error:
         self.code = 0
         self.mes = ""
 
+def extract_table(img_path: str, err: Error) -> pd.DataFrame | None:
+    if not shutil.which("tesseract"):
+        err.code = 69
+        err.mes = "tesseract not found in PATH"
+        return None
 
-def extract_table(img_path: str, err: Error) -> pd.DataFrame | None: 
-    ocr = TesseractOCR(n_threads=2, lang="eng")
-    img = Img(img_path)
-    tables = img.extract_tables(
-        ocr=ocr,
-        implicit_rows=True,
-        borderless_tables=True,
-        min_confidence=50,
-    )
+    try:
+        ocr = TesseractOCR(n_threads=2, lang="eng")
+        img = Img(img_path)
+        tables = img.extract_tables(
+            ocr=ocr,
+            implicit_rows=True,
+            borderless_tables=True,
+            min_confidence=50,
+        )
+    except Exception as exc:
+        err.code = 70  # EX_SOFTWARE
+        err.mes = f"extraction failed: {exc}"
+        return None
 
     if len(tables) == 0:
         err.code = 2
@@ -43,4 +53,3 @@ def extract_table(img_path: str, err: Error) -> pd.DataFrame | None:
         return None
 
     return tables[0].df
-    

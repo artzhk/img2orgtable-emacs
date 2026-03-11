@@ -41,27 +41,28 @@ def _restore_fds(token):
 def main(argv=None):
     tok = _silence_fds()
 
-    argv = argv or sys.argv[1:]
-    err: Error = Error()
-    
-    if len(argv) < 1 or not Path(argv[0]).exists():
-        err.code = 64
-        err.mes = "usage: img2org.py IMAGE"
-        print(err.mes, file=sys.stderr)
-        sys.exit(err.code)
+    try: 
+        argv = argv or sys.argv[1:]
+        err: Error = Error()
+        
+        if len(argv) < 1 or not Path(argv[0]).exists():
+            err.code = 64
+            err.mes = "usage: img2org.py IMAGE"
+            print(err.mes, file=sys.stderr)
+            sys.exit(err.code)
 
-    table = img2orgtable_core.extract_table(argv[0], err)
+        table = img2orgtable_core.extract_table(argv[0], err)
+    finally:
+        _restore_fds(tok)
 
     if err.code != 0: 
         print(err.mes, file=sys.stderr)
         sys.exit(err.code)
 
     if table is None:
-        # visible again
         print("# no table detected", file=sys.stderr)
         sys.exit(2)
 
-    _restore_fds(tok)
     print(img2orgtable_core.to_org(table))
 
 if __name__ == "__main__":
